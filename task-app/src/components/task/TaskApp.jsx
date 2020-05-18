@@ -1,12 +1,27 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class TaskApp extends Component {
   render() {
     return (
       <div className="TaskApp">
-        <LoginComponent />
+        <Router>
+          <>
+            <Route path="/" exact component={LoginComponent} />
+            <Route path="/login" component={LoginComponent} />
+            <Route path="/welcome" component={WelcomeComponent} />
+          </>
+        </Router>
+        {/*<LoginComponent />
+        <WelcomeComponent />*/}
       </div>
     );
+  }
+}
+
+class WelcomeComponent extends Component {
+  render() {
+    return <div>Welcome</div>;
   }
 }
 
@@ -34,13 +49,10 @@ class LoginComponent extends Component {
   }
 
   loginClicked() {
-    if (
-      this.state.username === "in28minutes" &&
-      this.state.password === "dummy"
-    ) {
-      console.log("Successful");
-      this.setState({ showSuccessMessage: true });
-      this.setState({ hasLoginFailed: false });
+    if (this.state.username === "in28minutes" && this.state.password === "dummy") {
+      this.props.history.push("/welcome")
+      //this.setState({ showSuccessMessage: true });
+      //this.setState({ hasLoginFailed: false });
     } else {
       this.setState({ showSuccessMessage: false });
       this.setState({ hasLoginFailed: true });
@@ -53,8 +65,10 @@ class LoginComponent extends Component {
   render() {
     return (
       <div>
-        <ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>
-        <ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>
+        {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
+        {this.state.hasLoginFailed && <div>Invalid Credentials</div>}
+        {this.state.showSuccessMessage && <div>Login Successful</div>}
+        {/*<ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>*/}
         User Name:{" "}
         <input
           type="text"
@@ -75,18 +89,18 @@ class LoginComponent extends Component {
   }
 }
 
-function ShowInvalidCredentials(props) {
-  if (props.hasLoginFailed) {
-    return <div>Invalid Credentials</div>;
-  }
-  return null
-}
+// function ShowInvalidCredentials(props) {
+//   if (props.hasLoginFailed) {
+//     return <div>Invalid Credentials</div>;
+//   }
+//   return null;
+// }
 
-function ShowLoginSuccessMessage(props) {
-    if (props.showSuccessMessage) {
-        return <div>Login Successful</div>;
-    }
-    return null
-}
+// function ShowLoginSuccessMessage(props) {
+//   if (props.showSuccessMessage) {
+//     return <div>Login Successful</div>;
+//   }
+//   return null;
+// }
 
 export default TaskApp;

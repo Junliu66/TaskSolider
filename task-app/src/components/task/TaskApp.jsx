@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 class TaskApp extends Component {
   render() {
@@ -7,9 +7,13 @@ class TaskApp extends Component {
       <div className="TaskApp">
         <Router>
           <>
-            <Route path="/" exact component={LoginComponent} />
-            <Route path="/login" component={LoginComponent} />
-            <Route path="/welcome" component={WelcomeComponent} />
+            <Switch>
+              <Route path="/" exact component={LoginComponent} />
+              <Route path="/login" component={LoginComponent} />
+              <Route path="/welcome/:name" component={WelcomeComponent} />
+              <Route path="/tasks" component={ListTasksComponent} />
+              <Route component={ErrorComponent} />
+            </Switch>
           </>
         </Router>
         {/*<LoginComponent />
@@ -19,10 +23,51 @@ class TaskApp extends Component {
   }
 }
 
+class ListTasksComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [
+        { id: 1, description: "Learn to Dance" },
+        { id: 2, description: "Become an Expert at React" },
+        { id: 3, description: "Learn React" },
+      ],
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>List Tasks</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.tasks.map((task) => (
+              <tr>
+                <td>{task.id}</td>
+                <td>{task.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
 class WelcomeComponent extends Component {
   render() {
-    return <div>Welcome</div>;
+    return <div>Welcome {this.props.match.params.name}</div>;
   }
+}
+
+function ErrorComponent() {
+  return <div>An Error Occured. I dont't know what to do! Contact Support</div>;
 }
 
 class LoginComponent extends Component {
@@ -49,8 +94,11 @@ class LoginComponent extends Component {
   }
 
   loginClicked() {
-    if (this.state.username === "in28minutes" && this.state.password === "dummy") {
-      this.props.history.push("/welcome")
+    if (
+      this.state.username === "in28minutes" &&
+      this.state.password === "dummy"
+    ) {
+      this.props.history.push(`/welcome/${this.state.username}`);
       //this.setState({ showSuccessMessage: true });
       //this.setState({ hasLoginFailed: false });
     } else {

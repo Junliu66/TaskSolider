@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 class TaskApp extends Component {
   render() {
@@ -7,6 +7,7 @@ class TaskApp extends Component {
       <div className="TaskApp">
         <Router>
           <>
+            <HeaderComponent/>
             <Switch>
               <Route path="/" exact component={LoginComponent} />
               <Route path="/login" component={LoginComponent} />
@@ -14,6 +15,7 @@ class TaskApp extends Component {
               <Route path="/tasks" component={ListTasksComponent} />
               <Route component={ErrorComponent} />
             </Switch>
+            <FooterComponent/>
           </>
         </Router>
         {/*<LoginComponent />
@@ -23,14 +25,36 @@ class TaskApp extends Component {
   }
 }
 
+class HeaderComponent extends Component {
+  render() {
+    return (
+      <div>
+        Header <hr/>
+      </div>
+    )
+  }
+}
+
+class FooterComponent extends Component {
+  render() {
+    return (
+      <div>
+        <hr/>Footer
+      </div>
+    )
+  }
+}
+
+
+
 class ListTasksComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tasks: [
-        { id: 1, description: "Learn to Dance" },
-        { id: 2, description: "Become an Expert at React" },
-        { id: 3, description: "Learn React" },
+        { id: 1, description: "Learn to Dance", done: false, targetDate: new Date() },
+        { id: 2, description: "Become an Expert at React", done: false, targetDate: new Date() },
+        { id: 3, description: "Learn React", done: false, targetDate: new Date() },
       ],
     };
   }
@@ -44,6 +68,8 @@ class ListTasksComponent extends Component {
             <tr>
               <th>id</th>
               <th>description</th>
+              <th>Target Date</th>
+              <th>Is Completed?</th>
             </tr>
           </thead>
           <tbody>
@@ -51,6 +77,8 @@ class ListTasksComponent extends Component {
               <tr>
                 <td>{task.id}</td>
                 <td>{task.description}</td>
+                <td>{task.done.toString()}</td>
+                <td>{task.targetDate.toString()}</td>
               </tr>
             ))}
           </tbody>
@@ -62,7 +90,12 @@ class ListTasksComponent extends Component {
 
 class WelcomeComponent extends Component {
   render() {
-    return <div>Welcome {this.props.match.params.name}</div>;
+    return (
+      <div>
+        Welcome {this.props.match.params.name}. You can manage your tasks
+        <Link to="/tasks">here</Link>
+      </div>
+    );
   }
 }
 

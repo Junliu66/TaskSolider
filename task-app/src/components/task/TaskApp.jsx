@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import AuthenticationService from './AuthenticationService.js'
 
 class TaskApp extends Component {
   render() {
@@ -32,7 +33,7 @@ class HeaderComponent extends Component {
       <header>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
           <div>
-            <a href="http://www.in28Minutes.com" className="navbar-brand">
+            <a href="https://www.linkedin.com/in/junliuzhang/" className="navbar-brand">
               TaskSolider
             </a>
           </div>
@@ -55,7 +56,7 @@ class HeaderComponent extends Component {
               </Link>
             </li>
             <li>
-              <Link className="nav-link" to="/logout">
+              <Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>
                 Logout
               </Link>
             </li>
@@ -118,26 +119,26 @@ class ListTasksComponent extends Component {
     return (
       <div>
         <h1>List Tasks</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>description</th>
-              <th>Target Date</th>
-              <th>Is Completed?</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.tasks.map((task) => (
+        <div className="container">
+          <table className="table">
+            <thead>
               <tr>
-                <td>{task.id}</td>
-                <td>{task.description}</td>
-                <td>{task.done.toString()}</td>
-                <td>{task.targetDate.toString()}</td>
+                <th>description</th>
+                <th>Target Date</th>
+                <th>Is Completed?</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.tasks.map((task) => (
+                <tr>
+                  <td>{task.description}</td>
+                  <td>{task.done.toString()}</td>
+                  <td>{task.targetDate.toString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
@@ -147,10 +148,12 @@ class WelcomeComponent extends Component {
   render() {
     return (
       <div>
-        Welcome {this.props.match.params.name}. You can manage your tasks{" "}
-        <Link to="/tasks">here</Link>
+        <h1>Welcome!</h1>
+        <div className="container"></div>
+          Welcome {this.props.match.params.name}. You can manage your tasks{" "}
+          <Link to="/tasks">here</Link>
       </div>
-    );
+    ) 
   }
 }
 
@@ -162,7 +165,7 @@ class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "in28minutes",
+      username: "Junliu66",
       password: "",
       hasLoginFailed: false,
       showSuccessMessage: false,
@@ -183,16 +186,16 @@ class LoginComponent extends Component {
 
   loginClicked() {
     if (
-      this.state.username === "in28minutes" &&
+      this.state.username === "Junliu66" &&
       this.state.password === "dummy"
     ) {
+      AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
       this.props.history.push(`/welcome/${this.state.username}`);
       //this.setState({ showSuccessMessage: true });
       //this.setState({ hasLoginFailed: false });
     } else {
       this.setState({ showSuccessMessage: false });
       this.setState({ hasLoginFailed: true });
-      console.log("Failed");
     }
 
     //console.log(this.state);
@@ -201,25 +204,28 @@ class LoginComponent extends Component {
   render() {
     return (
       <div>
-        {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
-        {this.state.hasLoginFailed && <div>Invalid Credentials</div>}
-        {this.state.showSuccessMessage && <div>Login Successful</div>}
-        {/*<ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>*/}
-        User Name:{" "}
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handleChange}
-        />
-        Password:{" "}
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-        />
-        <button onClick={this.loginClicked}>Login</button>
+        <h1>login</h1>
+        <div className="container">
+          {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
+          {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
+          {this.state.showSuccessMessage && <div>Login Successful</div>}
+          {/*<ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>*/}
+          User Name:{" "}
+          <input
+            type="text"
+            name="username"
+            value={this.state.username}
+            onChange={this.handleChange}
+          />
+          Password:{" "}
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+          />
+          <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
+        </div>
       </div>
     );
   }

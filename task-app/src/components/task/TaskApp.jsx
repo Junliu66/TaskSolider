@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import AuthenticationService from './AuthenticationService.js'
+import AuthenticationService from "./AuthenticationService.js";
+import { withRouter } from 'react-router';
+import AuthenticatedRoute from './AuthenticatedRoute.jsx';
 
 class TaskApp extends Component {
   render() {
@@ -12,9 +14,9 @@ class TaskApp extends Component {
             <Switch>
               <Route path="/" exact component={LoginComponent} />
               <Route path="/login" component={LoginComponent} />
-              <Route path="/welcome/:name" component={WelcomeComponent} />
-              <Route path="/tasks" component={ListTasksComponent} />
-              <Route path="/logout" component={LogoutComponent} />
+              <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
+              <AuthenticatedRoute path="/tasks" component={ListTasksComponent} />
+              <AuthenticatedRoute path="/logout" component={LogoutComponent} />
               <Route component={ErrorComponent} />
             </Switch>
             <FooterComponent />
@@ -29,6 +31,9 @@ class TaskApp extends Component {
 
 class HeaderComponent extends Component {
   render() {
+    const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
+    console.log(isUserLoggedIn);
+
     return (
       <header>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -38,28 +43,12 @@ class HeaderComponent extends Component {
             </a>
           </div>
           <ul className="navbar-nav">
-            <li>
-              <Link className="nav-link" to="/welcome/Junliu">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/tasks">
-                Tasks
-              </Link>
-            </li>
+            {isUserLoggedIn && <li><Link className="nav-link" to="/welcome/Junliu">Home</Link></li>}
+            {isUserLoggedIn &&<li><Link className="nav-link" to="/tasks">Tasks</Link></li>}
           </ul>
           <ul className="navbar-nav navbar-collapse justify-content-end">
-            <li>
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>
-                Logout
-              </Link>
-            </li>
+            {!isUserLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
+            {isUserLoggedIn && <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
           </ul>
         </nav>
       </header>
@@ -123,14 +112,14 @@ class ListTasksComponent extends Component {
           <table className="table">
             <thead>
               <tr>
-                <th>description</th>
+                <th>Description</th>
                 <th>Target Date</th>
                 <th>Is Completed?</th>
               </tr>
             </thead>
             <tbody>
               {this.state.tasks.map((task) => (
-                <tr>
+                <tr key={task.id}>
                   <td>{task.description}</td>
                   <td>{task.done.toString()}</td>
                   <td>{task.targetDate.toString()}</td>
@@ -185,10 +174,7 @@ class LoginComponent extends Component {
   }
 
   loginClicked() {
-    if (
-      this.state.username === "Junliu66" &&
-      this.state.password === "dummy"
-    ) {
+    if (this.state.username === "Junliu66" && this.state.password === "dummy") {
       AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
       this.props.history.push(`/welcome/${this.state.username}`);
       //this.setState({ showSuccessMessage: true });

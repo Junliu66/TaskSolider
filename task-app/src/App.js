@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import "./bootstrap.css";
 import TaskApp from "./components/task/TaskApp";
 
 class App extends Component {

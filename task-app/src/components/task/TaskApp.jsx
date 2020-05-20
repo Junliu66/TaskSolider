@@ -7,7 +7,7 @@ class TaskApp extends Component {
       <div className="TaskApp">
         <Router>
           <>
-            <HeaderComponent/>
+            <HeaderComponent />
             <Switch>
               <Route path="/" exact component={LoginComponent} />
               <Route path="/login" component={LoginComponent} />
@@ -15,7 +15,7 @@ class TaskApp extends Component {
               <Route path="/tasks" component={ListTasksComponent} />
               <Route component={ErrorComponent} />
             </Switch>
-            <FooterComponent/>
+            <FooterComponent />
           </>
         </Router>
         {/*<LoginComponent />
@@ -29,9 +29,9 @@ class HeaderComponent extends Component {
   render() {
     return (
       <div>
-        Header <hr/>
+        Header <hr />
       </div>
-    )
+    );
   }
 }
 
@@ -39,22 +39,36 @@ class FooterComponent extends Component {
   render() {
     return (
       <div>
-        <hr/>Footer
+        <hr />
+        Footer
       </div>
-    )
+    );
   }
 }
-
-
 
 class ListTasksComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tasks: [
-        { id: 1, description: "Learn to Dance", done: false, targetDate: new Date() },
-        { id: 2, description: "Become an Expert at React", done: false, targetDate: new Date() },
-        { id: 3, description: "Learn React", done: false, targetDate: new Date() },
+        {
+          id: 1,
+          description: "Learn to Dance",
+          done: false,
+          targetDate: new Date(),
+        },
+        {
+          id: 2,
+          description: "Become an Expert at React",
+          done: false,
+          targetDate: new Date(),
+        },
+        {
+          id: 3,
+          description: "Learn React",
+          done: false,
+          targetDate: new Date(),
+        },
       ],
     };
   }
@@ -92,7 +106,7 @@ class WelcomeComponent extends Component {
   render() {
     return (
       <div>
-        Welcome {this.props.match.params.name}. You can manage your tasks
+        Welcome {this.props.match.params.name}. You can manage your tasks{" "}
         <Link to="/tasks">here</Link>
       </div>
     );

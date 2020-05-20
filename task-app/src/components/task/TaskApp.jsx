@@ -13,6 +13,7 @@ class TaskApp extends Component {
               <Route path="/login" component={LoginComponent} />
               <Route path="/welcome/:name" component={WelcomeComponent} />
               <Route path="/tasks" component={ListTasksComponent} />
+              <Route path="/logout" component={LogoutComponent} />
               <Route component={ErrorComponent} />
             </Switch>
             <FooterComponent />
@@ -30,16 +31,36 @@ class HeaderComponent extends Component {
     return (
       <header>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-          <div><a href="http://www.in28Minutes.com" className="navbar-brand">TaskSolider</a></div>
+          <div>
+            <a href="http://www.in28Minutes.com" className="navbar-brand">
+              TaskSolider
+            </a>
+          </div>
           <ul className="navbar-nav">
-            <li><Link className="nav-link" to="/welcome/Junliu">Home</Link></li>
-            <li><Link className="nav-link" to="/tasks">Tasks</Link></li>  
+            <li>
+              <Link className="nav-link" to="/welcome/Junliu">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-link" to="/tasks">
+                Tasks
+              </Link>
+            </li>
           </ul>
           <ul className="navbar-nav navbar-collapse justify-content-end">
-            <li><Link className="nav-link" to="/login">Login</Link></li>
-            <li><Link className="nav-link" to="/logout">Logout</Link></li>  
-          </ul>      
-        </nav>  
+            <li>
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-link" to="/logout">
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </header>
     );
   }
@@ -48,9 +69,19 @@ class HeaderComponent extends Component {
 class FooterComponent extends Component {
   render() {
     return (
+      <footer className="footer">
+        <span className="text-muted">All Rights Reserved.</span>       
+      </footer>
+    );
+  }
+}
+
+class LogoutComponent extends Component {
+  render() {
+    return (
       <div>
-        <hr />
-        Footer
+        <h1>You are logged out</h1>
+        <div className="container">Thank you for using our application.</div>
       </div>
     );
   }

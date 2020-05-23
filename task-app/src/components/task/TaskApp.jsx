@@ -8,6 +8,7 @@ import FooterComponent from './FooterComponent.jsx';
 import WelcomeComponent from './WelcomeComponent.jsx';
 import LogoutComponent from './LogoutComponent.jsx';
 import ErrorComponent from './ErrorComponent.jsx';
+import TaskComponent from './TaskComponent.jsx';
 
 class TaskApp extends Component {
     render() {
@@ -20,8 +21,9 @@ class TaskApp extends Component {
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
+                            <AuthenticatedRoute path="/tasks/:id" component={TaskComponent}/>
                             <AuthenticatedRoute path="/tasks" component={ListTasksComponent}/>
-                            <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
+                            <AuthenticatedRoute path="/logout" component={LogoutComponent}/>                        
                             <Route component={ErrorComponent}/>
                         </Switch>
                         <FooterComponent/>

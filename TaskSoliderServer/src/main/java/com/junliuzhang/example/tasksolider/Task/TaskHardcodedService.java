@@ -23,6 +23,17 @@ public class TaskHardcodedService {
         return tasks;
     }
 
+    public Task save(Task task) {
+        if (task.getId() == -1 || task.getId() == 0) {
+            task.setId(++idCounter);
+            tasks.add(task);
+        } else {
+            deleteById(task.getId());
+            tasks.add(task);
+        }
+        return task;
+    }
+
     public Task deleteById(long id) {
         Task task = findById(id);
         if (task == null) {

@@ -11,6 +11,10 @@ public class Task {
     private Date targetDate;
     private boolean isDone;
 
+    protected Task() {
+
+    }
+
     public Task(long id, String username, String description, Date targetDate, boolean isDone) {
         super();
         this.id = id;

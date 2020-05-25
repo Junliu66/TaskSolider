@@ -9,7 +9,7 @@ class TaskComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            id : 1,
+            id : this.props.match.params.id,
             description : '',
             targetDate : moment(new Date()).format('YYYY-MM-DD')
         }
@@ -19,6 +19,10 @@ class TaskComponent extends Component {
     }
 
     componentDidMount() {
+
+        if(this.state.id === -1) {
+            return
+        }
         let username = AuthenticationService.getLoggedInUserName()
         TaskDataService.retrieveTask(username, this.state.id)
         .then(response => this.setState ({
@@ -43,11 +47,28 @@ class TaskComponent extends Component {
     }
 
     onSubmit(values) {
-        console.log(values)
+        let username = AuthenticationService.getLoggedInUserName()
+
+        let task = {
+            id: this.state.id,
+            description: values.description,
+            targetDate: values.targetDate
+        }
+
+        if (this.state.id === -1) {
+            TaskDataService.createTask(username, task)
+            .then(() => this.props.history.push('/tasks'))
+        
+        } else {
+            TaskDataService.updateTask(username, this.state.id, task)
+            .then(() => this.props.history.push('/tasks'))
+        }
     }
 
     render() {
+
         let {description, targetDate} = this.state
+
         return (
             <div>
                 <h1>Task</h1>
@@ -61,7 +82,7 @@ class TaskComponent extends Component {
                         enableReinitialize={true}                       
                     >
                         {
-                            (props) =>
+                            (props) => (
                                 <Form>
                                 <ErrorMessage name="description" component="div" className="alert alert-warning"/>
                                 <ErrorMessage name="targetDate" component="div" className="alert alert-warning"/>
@@ -75,6 +96,7 @@ class TaskComponent extends Component {
                                     </fieldset>
                                     <button className="btn btn-success"type="submit">Save</button>
                                 </Form>
+                            )
                         }                   
                     </Formik>
                 </div>    

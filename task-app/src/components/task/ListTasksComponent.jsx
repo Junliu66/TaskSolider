@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import TaskDataService from '../../api/task/TaskDataService.js'
 import AuthenticationService from './AuthenticationService.js'
+import moment from 'moment'
 
 class ListTasksComponent extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class ListTasksComponent extends Component {
 
         this.updateTaskClicked = this.updateTaskClicked.bind(this)
         this.deleteTaskClicked = this.deleteTaskClicked.bind(this)
+        this.addTaskClicked = this.addTaskClicked.bind(this)
         this.refreshTasks = this.refreshTasks.bind(this)
     }
 
@@ -20,13 +22,19 @@ class ListTasksComponent extends Component {
     }
 
     refreshTasks() {
-        let username = AuthenticationService.getLoggedInUserName
+        let username = AuthenticationService.getLoggedInUserName()
         TaskDataService.retrieveAllTasks(username)
         .then(
             response => {
                 this.setState({tasks : response.data})
             }
         )
+    }
+
+    addTaskClicked() {
+
+        this.props.history.push(`/tasks/-1`)
+
     }
 
     updateTaskClicked(id) {
@@ -75,13 +83,17 @@ class ListTasksComponent extends Component {
                             <tr key={task.id}>
                                 <td>{task.description}</td>
                                 <td>{task.done.toString()}</td>
-                                <td>{task.targetDate.toString()}</td>
+                                <td>{moment(task.targetDate).format('YYYY-MM-DD')}</td>
                                 <td><button className="btn btn-success" onClick={() => this.updateTaskClicked(task.id)}>Update</button></td>
                                 <td><button className="btn btn-warning" onClick={() => this.deleteTaskClicked(task.id)}>Delete</button></td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
+                    <div className="row">
+                            <button className="btn btn-success" onClick={this.addTaskClicked}>Add</button>
+                    
+                    </div>
                 </div>
             </div>
         );

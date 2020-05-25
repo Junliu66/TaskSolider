@@ -1,9 +1,13 @@
 package com.junliuzhang.example.tasksolider.Task;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,7 +36,25 @@ public class TaskResource {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/users/{username}/tasks/{id}")
+    public ResponseEntity<Task> updateTask(
+            @PathVariable String username, @PathVariable long id, @RequestBody Task task) {
 
+        Task taskUpdated = taskService.save(task);
+        return new ResponseEntity<Task>(task, HttpStatus.OK);
+    }
+
+    @PostMapping("/users/{username}/tasks")
+    public ResponseEntity<Void> createTask(
+            @PathVariable String username, @RequestBody Task task) {
+
+        Task createdTask = taskService.save(task);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(createdTask.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
+    }
 
 
 }

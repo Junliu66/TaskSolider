@@ -9,6 +9,10 @@ public class  JwtTokenRequest implements Serializable {
     private String username;
     private String password;
 
+//    {
+//        "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdW5saXU2NiIsImV4cCI6MTU5MTA3ODU3MCwiaWF0IjoxNTkwNDczNzcwfQ.LT562XHLr_VbDX1KffiiZPMEyH0W7i89We729XSD75UF1KDwHnr4Xbq0lZlX1QUON0CjMZDsXQDeoaxk8DDQbw"
+//    }
+
     public JwtTokenRequest() {
         super();
     }

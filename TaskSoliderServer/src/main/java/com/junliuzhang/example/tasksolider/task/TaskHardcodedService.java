@@ -1,6 +1,5 @@
-package com.junliuzhang.example.tasksolider.Task;
+package com.junliuzhang.example.tasksolider.task;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.junliuzhang.example.tasksolider.Task;
+package com.junliuzhang.example.tasksolider.task;
 
 import java.util.Date;
 import java.util.Objects;

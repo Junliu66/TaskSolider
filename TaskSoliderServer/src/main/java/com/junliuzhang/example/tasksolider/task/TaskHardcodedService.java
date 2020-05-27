@@ -10,7 +10,7 @@ import java.util.List;
 public class TaskHardcodedService {
 
     private static List<Task> tasks = new ArrayList();
-    private static int idCounter = 0;
+    private static long idCounter = 0;
 
     static {
         tasks.add(new Task(++idCounter, "junliu66", "Learn to Dance", new Date(), false));

@@ -82,8 +82,8 @@ class ListTasksComponent extends Component {
                         {this.state.tasks.map((task) => (
                             <tr key={task.id}>
                                 <td>{task.description}</td>
-                                <td>{task.done.toString()}</td>
                                 <td>{moment(task.targetDate).format('YYYY-MM-DD')}</td>
+                                <td>{task.done.toString()}</td>
                                 <td><button className="btn btn-success" onClick={() => this.updateTaskClicked(task.id)}>Update</button></td>
                                 <td><button className="btn btn-warning" onClick={() => this.deleteTaskClicked(task.id)}>Delete</button></td>
                             </tr>

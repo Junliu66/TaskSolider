@@ -1,28 +1,26 @@
-import axios from "axios"
+import axios from "axios";
+import { API_URL, JPA_API_URL } from '../../Constants'
 
 class TaskDataService {
+  retrieveAllTasks(name) {
+    return axios.get(`${JPA_API_URL}/users/{${name}/tasks`);
+  }
 
-    retrieveAllTasks(name) {
-        return axios.get(`http://localhost:8080/users/{${name}/tasks`)
-    }
+  retrieveTask(name, id) {
+    return axios.get(`${JPA_API_URL}/users/{${name}/tasks/${id}`);
+  }
 
-    retrieveTask(name, id) {
-        return axios.get(`http://localhost:8080/users/{${name}/tasks/${id}`)
-    }
+  deleteTask(name, id) {
+    return axios.delete(`${JPA_API_URL}/users/{${name}/tasks/${id}`);
+  }
 
+  updateTask(name, id, task) {
+    return axios.put(`${JPA_API_URL}/users/{${name}/tasks/${id}`, task);
+  }
 
-    deleteTask(name, id) {
-        return axios.delete(`http://localhost:8080/users/{${name}/tasks/${id}`)
-    }
-
-    updateTask(name, id, task) {
-        return axios.put(`http://localhost:8080/users/{${name}/tasks/${id}`, task)
-    }
-
-    createTask(name, task) {
-        return axios.post(`http://localhost:8080/users/{${name}/tasks`, task)
-    }
-
+  createTask(name, task) {
+    return axios.post(`${JPA_API_URL}/users/{${name}/tasks`, task);
+  }
 }
 
-export default new TaskDataService()
+export default new TaskDataService();
